@@ -1,0 +1,53 @@
+# =========================
+# Variables de Entorno
+# =========================
+.env
+.env.*
+
+# =========================
+# Base de datos
+# =========================
+db.sqlite3
+db.sqlite3-journal
+
+# =========================
+# Entornos Virtuales
+# =========================
+venv/
+.venv/
+env/
+
+# =========================
+# Python
+# =========================
+# Archivos compilados y caché que genera Python automáticamente
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# =========================
+# Django
+# =========================
+/static_root/
+/staticfiles/
+
+# =========================
+# Logs
+# =========================
+*.log
+
+# =========================
+# SO e IDES
+# =========================
+# VS Code
+.vscode/
+
+# PyCharm / IntelliJ
+.idea/
+
+# Archivos temporales de editores comunes en Linux (Vim, Nano, etc.)
+*.swp
+*.swo
+*~
