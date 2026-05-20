@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 class Matricula(models.Model):
     letras = models.CharField(max_length=3)
-    respuesta = models.CharField(max_length=100)
+    respuesta = models.CharField(max_length=100, null=True)
 
     usuario = models.ForeignKey(User, on_delete=models.CASCADE, related_name='matriculas')
 
