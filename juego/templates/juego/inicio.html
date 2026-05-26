@@ -6,6 +6,32 @@
 </head>
 <body>
     <h1>¡Bienvenido a Matrículas!</h1>
-    <p>Introduce una palabra que contenga las letras de la matrícula.</p>
+    <p>Introduce una palabra que contenga las letras de la matrícula: {{ letras }}</p>
+
+    {% if messages %}
+        <ul class="mensajes">
+            {% for message in messages %}
+                <li class="{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <form method="POST" action="">
+        {% csrf_token %}
+        
+        <input type="hidden" name="letras" value="{{ letras }}">
+        
+        <input type="text" name="respuesta" placeholder="Escribe tu palabra..." required autofocus>
+        <button type="submit">Aceptar</button>
+    </form>
+
+    <form method="POST" action="" style="display: inline-block; margin-left: 10px;">
+        {% csrf_token %}
+        <input type="hidden" name="accion" value="saltar">
+        <button type="submit" style="background-color: #d9534f; color: white; border: none; padding: 6px 12px; cursor: pointer; border-radius: 4px;">
+            Cambiar letras
+        </button>
+    </form>
+
 </body>
 </html>

@@ -10,7 +10,7 @@ from spellchecker import SpellChecker
 # -----------
 # CONSTANTES
 # -----------
-letras = ('B', 'C', 'D', 'F', 'G', 'H', 'J', 'L', 'M', 'N', 'P', 'R', 'S', 'T', 'V', 'X', 'Y', 'Z')
+letras = ('B', 'C', 'D', 'F', 'G', 'H', 'J', 'L', 'M', 'N', 'P', 'R', 'S', 'T', 'V', 'X', 'Z')
 
 corrector = SpellChecker(language='es')
 
@@ -22,7 +22,7 @@ def obtener_letra():
     return random.choice(letras)
 
 
-def generar_matricula():
+def generar_letras():
     res = ''
 
     while len(res) < 3:
@@ -34,34 +34,34 @@ def generar_matricula():
     return res
 
 
-def verificar_respuesta(matricula,respuesta):
+def validar_respuesta(letras,respuesta):
 
-    matricula_ = matricula.strip().lower()
-    respuesta_ = respuesta.strip().lower()
+    letras = letras.strip().lower()
+    respuesta = respuesta.strip().lower()
 
     res = True
-    msj = "Palabra válida"
+    msj = "Palabra válida."
 
-    if respuesta_ not in corrector:
+    if respuesta not in corrector:
         res = False
-        msj = "La palabra no existe en español"
+        msj = "La palabra no existe en español."
     else:
-        for letra in matricula_:
+        for letra in letras:
 
-            if letra not in respuesta_:
+            if letra not in respuesta:
                 res = False
-                msj = "La palabra no contiene las todas letras de la matrícula"
+                msj = "La palabra no contiene las todas letras de la matrícula."
                 break
 
-            restoRespuesta = respuesta_.partition(letra)[2]
+            restoRespuesta = respuesta.partition(letra)[2]
             if restoRespuesta != '':
-                restoMatricula = matricula_.partition(letra)[2]
+                restoLetras = letras.partition(letra)[2]
 
-                if restoMatricula != '':
-                    for letra in restoMatricula:
+                if restoLetras != '':
+                    for letra in restoLetras:
                         if letra not in restoRespuesta:
                             res = False
-                            msj = "Las letras de la matrícula no aparecen en el orden correcto"
+                            msj = "Las letras de la matrícula no aparecen en el orden correcto."
                             break
 
     return (res,msj)
