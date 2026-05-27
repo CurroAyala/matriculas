@@ -1,8 +1,46 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
 from django.contrib import messages
 from .services.services import inicializar, procesar_intento, saltar_matricula_activa
 
+
+# ---------
+# REGISTRO
+# ---------
+
+def registro(request):
+    """
+    Esta vista gestiona la creación de nuevos usuarios.
+    """
+    
+    if request.user.is_authenticated:
+        return redirect('inicio')
+
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        
+        if form.is_valid():
+            usuario = form.save()
+            
+            login(request, usuario)
+            messages.success(request, f"¡Cuenta creada con éxito! Bienvenido, {usuario.username}.")
+            
+            return redirect('inicio')
+    else:
+
+        form = UserCreationForm()
+
+    contexto = {
+        'form': form
+    }
+    return render(request, 'registration/registro.html', contexto)
+
+
+# -----------------
+# PÁGINA PRINCIPAL
+# -----------------
 
 @login_required
 def inicio(request):
@@ -39,5 +77,3 @@ def inicio(request):
     }
 
     return render(request, 'juego/inicio.html', contexto)
-
-

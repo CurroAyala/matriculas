@@ -11,5 +11,7 @@
         {% csrf_token %}
         {{ form.as_p }} <button type="submit">Iniciar sesión</button>
     </form>
+
+    <p>¿No tienes cuenta? <a href="{% url 'registro' %}">Regístrate gratis</a></p>
 </body>
 </html>
