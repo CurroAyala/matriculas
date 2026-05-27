@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Estadísticas</title>
+</head>
+<body>
+    <h1>Panel de estadísticas</h1>
+
+    <form method="POST" action="{% url 'inicio' %}" style="display: inline-block; margin-left: 15px;">
+        {% csrf_token %}
+        <button type="submit" style="background-color: #8aaecf; color: white; border: none; padding: 4px 10px; cursor: pointer; border-radius: 4px; font-size: 14px;">
+            Inicio
+        </button>
+    </form>
+
+
+
+    <h2>Total de matrículas: {{ total }}</h2>
+
+
+    {% if rankin %}
+    <h2>Rankin global</h2>
+    <ul>
+        {% for clave, valor in rankin.items %}
+            <li><strong>{{ clave }}:</strong> {{ valor }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+
+    <h2>Colección de matrículas</h2>
+    {% if coleccion%}
+    <ul>
+        {% for matricula in coleccion %}
+            <li>
+                <strong>{{ matricula.letras }}</strong>: {{ matricula.respuesta }} 
+            </li>
+        {% empty %}
+        <li>No se han encontrado registros en la base de datos.</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+
+</body>
+</html>

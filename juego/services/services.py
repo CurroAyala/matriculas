@@ -1,3 +1,5 @@
+from django.contrib.auth.models import User
+from django.db.models import Count, Q
 from ..models import Matricula
 from .matriculas import generar_letras, validar_respuesta
 
@@ -65,3 +67,35 @@ def saltar_matricula_activa(usuario_):
         usuario=usuario_,
         respuesta__isnull=True
     ).delete()
+
+
+# -------------
+# ESTADÍSTICAS
+# -------------
+
+def obtener_rankin(): # Hecho con IA (Gemini)
+    rankin = User.objects.annotate(
+        total_palabras=Count('matriculas', filter=Q(matriculas__respuesta__isnull=False))
+    ).order_by('-total_palabras')[:5]
+
+    res = {u.username: u.total_palabras for u in rankin}
+    
+    return res
+
+
+def obtener_total(usuario_):
+    total_matriculas = Matricula.objects.filter(
+        usuario=usuario_,
+        respuesta__isnull=False
+    ).count()
+
+    return total_matriculas
+
+
+def obtener_coleccion(usuario_):
+    matriculas = Matricula.objects.filter(
+        usuario=usuario_,
+        respuesta__isnull=False
+    ).order_by('-id')
+
+    return matriculas

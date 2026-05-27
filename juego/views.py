@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.contrib import messages
-from .services.services import inicializar, procesar_intento, saltar_matricula_activa
+from .services.services import inicializar, procesar_intento, saltar_matricula_activa, obtener_total, obtener_rankin, obtener_coleccion
 
 
 # ---------
@@ -77,3 +77,23 @@ def inicio(request):
     }
 
     return render(request, 'juego/inicio.html', contexto)
+
+
+# -------------
+# ESTADÍSTICAS
+# -------------
+
+@login_required
+def estadisticas(request):
+
+    rankin = obtener_rankin()
+    total = obtener_total(request.user)
+    coleccion = obtener_coleccion(request.user)
+
+    contexto = {
+        'rankin': rankin,
+        'total': total,
+        'coleccion': coleccion
+    }
+
+    return render(request, 'juego/estadisticas.html', contexto)
