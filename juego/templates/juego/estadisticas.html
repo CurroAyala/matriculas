@@ -14,7 +14,7 @@
     <div class="navbar__inner">
       <span class="navbar__logo">MATRÍ<span>CULAS</span></span>
       <nav class="navbar__actions">
-        <form method="POST" action="{% url 'inicio' %}">
+        <form method="GET" action="{% url 'inicio' %}">
           {% csrf_token %}
           <button type="submit" class="btn btn--primary btn--sm">Jugar</button>
         </form>
