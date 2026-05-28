@@ -1,0 +1,771 @@
+/* =========================================
+   MATRÍCULAS — styles.css
+   Mobile-First · CSS Variables · Flexbox/Grid
+   ========================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800&display=swap');
+
+/* -----------------------
+   VARIABLES GLOBALES
+   ----------------------- */
+:root {
+  --bg:           #F3F4F6;
+  --surface:      #FFFFFF;
+  --surface-2:    #F8F9FC;
+  --border:       #E2E8F0;
+
+  --primary:      #4F46E5;
+  --primary-dark: #3730A3;
+  --primary-light:#EEF2FF;
+
+  --secondary:    #475569;
+  --secondary-dark:#334155;
+
+  --success:      #059669;
+  --success-bg:   #ECFDF5;
+  --error:        #DC2626;
+  --error-bg:     #FEF2F2;
+  --info-bg:      #EFF6FF;
+  --info-border:  #BFDBFE;
+
+  --text:         #1E293B;
+  --text-muted:   #64748B;
+  --text-light:   #94A3B8;
+
+  /* Tipografía */
+  --font-display: 'Bebas Neue', cursive;
+  --font-body:    'Nunito', sans-serif;
+
+  /* Radios y sombras */
+  --radius-sm:    8px;
+  --radius:       14px;
+  --radius-lg:    20px;
+  --shadow-sm:    0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+  --shadow:       0 4px 16px rgba(0,0,0,.10), 0 1px 4px rgba(0,0,0,.06);
+  --shadow-lg:    0 10px 40px rgba(0,0,0,.14);
+
+  /* Matrícula */
+  --plate-bg:       #FFF8DC;
+  --plate-border:   #1A1A2E;
+  --plate-blue:     #003399;
+}
+
+/* -----------------------
+   RESET Y BASE
+   ----------------------- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { font-size: 16px; scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--primary); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* -----------------------
+   NAVBAR
+   ----------------------- */
+.navbar {
+  background: var(--surface);
+  border-bottom: 2px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow-sm);
+}
+
+.navbar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1.25rem;
+  max-width: 900px;
+  margin: 0 auto;
+  gap: 0.75rem;
+}
+
+.navbar__logo {
+  font-family: var(--font-display);
+  font-size: 1.7rem;
+  letter-spacing: 2px;
+  color: var(--primary);
+  line-height: 1;
+}
+
+.navbar__logo span {
+  color: var(--text);
+}
+
+.navbar__actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+/* -----------------------
+   BOTONES
+   ----------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.9rem;
+  padding: 0.65rem 1.2rem;
+  border-radius: var(--radius-sm);
+  border: none;
+  cursor: pointer;
+  transition: background .18s, transform .12s, box-shadow .18s;
+  min-height: 44px; /* área táctil mínima */
+  white-space: nowrap;
+}
+
+.btn:active { transform: scale(.97); }
+
+.btn--primary {
+  background: var(--primary);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(79,70,229,.3);
+}
+.btn--primary:hover { background: var(--primary-dark); box-shadow: 0 4px 16px rgba(79,70,229,.4); }
+
+.btn--secondary {
+  background: var(--secondary);
+  color: #fff;
+}
+.btn--secondary:hover { background: var(--secondary-dark); }
+
+.btn--ghost {
+  background: transparent;
+  color: var(--secondary);
+  border: 2px solid var(--border);
+}
+.btn--ghost:hover { background: var(--surface-2); }
+
+.btn--danger {
+  background: #FEE2E2;
+  color: var(--error);
+  border: 1.5px solid #FECACA;
+}
+.btn--danger:hover { background: #FCA5A5; color: #fff; }
+
+.btn--success {
+  background: var(--primary);
+  color: #fff;
+  font-size: 1rem;
+  padding: 0.8rem 2rem;
+  border-radius: var(--radius);
+  box-shadow: 0 4px 20px rgba(79,70,229,.35);
+  width: 100%;
+}
+.btn--success:hover { background: var(--primary-dark); }
+
+.btn--sm {
+  font-size: 0.8rem;
+  padding: 0.45rem 0.85rem;
+  min-height: 36px;
+}
+
+.btn--icon {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 50%;
+  font-size: 1rem;
+  background: var(--primary-light);
+  color: var(--primary);
+  border: none;
+}
+.btn--icon:hover { background: var(--primary); color: #fff; }
+
+/* -----------------------
+   PÁGINA DE JUEGO (inicio)
+   ----------------------- */
+.page-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem 1rem 6rem;
+  gap: 1.25rem;
+  max-width: 600px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* — Mensajes flash — */
+.flash-list {
+  list-style: none;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.flash-list li {
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  animation: slideDown .3s ease;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.flash-list li.success { background: var(--success-bg); color: var(--success); border-left: 4px solid var(--success); }
+.flash-list li.error   { background: var(--error-bg);   color: var(--error);   border-left: 4px solid var(--error);   }
+.flash-list li.info    { background: var(--info-bg);    color: var(--primary); border-left: 4px solid var(--primary); }
+
+/* — Tarjeta de matrícula — */
+.plate-card {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  padding: 2rem 1.5rem;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.plate-label {
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--text-muted);
+}
+
+/* La "matrícula" visual */
+.plate {
+  display: inline-flex;
+  align-items: stretch;
+  border: 3px solid var(--plate-border);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.6);
+  position: relative;
+}
+
+.plate__eu {
+  background: var(--plate-blue);
+  color: #FFD700;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0.5rem;
+  font-size: 0.55rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  gap: 2px;
+  min-width: 36px;
+}
+
+.plate__eu-stars { font-size: 0.5rem; letter-spacing: 1px; }
+.plate__eu-flag  { font-size: 0.65rem; font-weight: 900; }
+
+.plate__letters {
+  background: var(--plate-bg);
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 14vw, 5rem);
+  letter-spacing: 0.2em;
+  padding: 0.2em 0.5em;
+  color: var(--plate-border);
+  line-height: 1;
+  display: flex;
+  align-items: center;
+}
+
+/* — Área de respuesta — */
+.answer-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.input-word {
+  width: 100%;
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 6vw, 2rem);
+  letter-spacing: 0.1em;
+  text-align: center;
+  padding: 0.7em 1em;
+  border: 2.5px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-2);
+  color: var(--text);
+  outline: none;
+  transition: border-color .2s, box-shadow .2s;
+}
+
+.input-word:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(79,70,229,.15);
+  background: var(--surface);
+}
+
+.input-word::placeholder { color: var(--text-light); }
+
+.form-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.form-actions .btn--success { flex: 1; }
+.form-actions .btn--danger  { flex: 0 0 auto; }
+
+/* — Botón de info (?) — */
+.info-btn-wrap {
+  display: flex;
+  justify-content: center;
+}
+
+/* -----------------------
+   MODAL DE INFORMACIÓN
+   ----------------------- */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15,23,42,.55);
+  backdrop-filter: blur(4px);
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s;
+}
+
+.modal-overlay.is-open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.modal {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  max-width: 480px;
+  width: 100%;
+  padding: 2rem 1.5rem;
+  transform: translateY(20px) scale(.97);
+  transition: transform .25s ease;
+}
+
+.modal-overlay.is-open .modal { transform: translateY(0) scale(1); }
+
+.modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.modal__title {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  letter-spacing: 1px;
+  color: var(--primary);
+}
+
+.modal__close {
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  color: var(--text-muted);
+  padding: 0.25rem;
+  line-height: 1;
+}
+.modal__close:hover { color: var(--text); }
+
+.modal__body {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--text);
+}
+
+.modal__body ul {
+  margin: 0.75rem 0 0 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.modal__body li { font-weight: 600; }
+
+/* -----------------------
+   FOOTER
+   ----------------------- */
+.site-footer {
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.8rem;
+  color: var(--text-light);
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  position: fixed;
+  bottom: 0;
+  left: 0; right: 0;
+  z-index: 10;
+}
+
+.site-footer a { color: var(--text-muted); font-weight: 700; }
+.site-footer a:hover { color: var(--primary); }
+
+/* -----------------------
+   ESTADÍSTICAS
+   ----------------------- */
+.stats-page {
+  flex: 1;
+  padding: 1.5rem 1rem 6rem;
+  max-width: 700px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.section-card {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  padding: 1.5rem;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  letter-spacing: 1px;
+  color: var(--text);
+  margin-bottom: 1.1rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* — Total pill — */
+.total-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--primary-light);
+  color: var(--primary);
+  border-radius: 999px;
+  padding: 0.4rem 1.1rem;
+  font-weight: 800;
+  font-size: 1rem;
+}
+
+.total-pill__number {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  letter-spacing: 1px;
+  line-height: 1;
+}
+
+/* — Ranking (podio) — */
+.ranking-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.ranking-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  border: 1.5px solid var(--border);
+  transition: transform .15s;
+}
+.ranking-item:hover { transform: translateX(4px); }
+
+.ranking-item--1 { background: #FFF9E6; border-color: #FFD700; }
+.ranking-item--2 { background: #F5F5F5; border-color: #C0C0C0; }
+.ranking-item--3 { background: #FFF4EE; border-color: #CD7F32; }
+
+.ranking-item__pos {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  min-width: 36px;
+  text-align: center;
+  line-height: 1;
+}
+
+.ranking-item--1 .ranking-item__pos { color: #B8860B; }
+.ranking-item--2 .ranking-item__pos { color: #7A7A7A; }
+.ranking-item--3 .ranking-item__pos { color: #8B4513; }
+.ranking-item:not(.ranking-item--1):not(.ranking-item--2):not(.ranking-item--3) .ranking-item__pos {
+  color: var(--text-muted);
+  font-size: 1.1rem;
+}
+
+.ranking-item__medal { font-size: 1.3rem; }
+
+.ranking-item__name {
+  flex: 1;
+  font-weight: 800;
+  font-size: 0.95rem;
+}
+
+.ranking-item__score {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  color: var(--primary);
+  letter-spacing: 1px;
+}
+
+/* — Colección de matrículas — */
+.collection-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+
+.collection-card {
+  background: var(--surface-2);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 0.6rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  transition: box-shadow .15s, transform .15s;
+}
+
+.collection-card:hover { box-shadow: var(--shadow); transform: translateY(-2px); }
+
+.collection-card__plate {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  letter-spacing: 3px;
+  color: var(--plate-border);
+  background: var(--plate-bg);
+  border: 2px solid var(--plate-border);
+  border-radius: 5px;
+  padding: 0.1em 0.5em;
+  line-height: 1.4;
+}
+
+.collection-card__word {
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--text);
+  text-align: center;
+  word-break: break-word;
+}
+
+/* -----------------------
+   FORMULARIOS (login/registro)
+   ----------------------- */
+.auth-page {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem 4rem;
+}
+
+.auth-logo {
+  font-family: var(--font-display);
+  font-size: 3rem;
+  letter-spacing: 4px;
+  color: var(--primary);
+  margin-bottom: 0.25rem;
+  text-align: center;
+}
+
+.auth-logo span { color: var(--text); }
+
+.auth-tagline {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  text-align: center;
+  margin-bottom: 1.75rem;
+  font-weight: 600;
+}
+
+.auth-card {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 2rem 1.5rem;
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.auth-card h1 {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  letter-spacing: 1px;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+}
+
+/* — Campos generados por Django ({{ form.as_p }}) — */
+.auth-card p {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 0.25rem;
+}
+
+.auth-card label {
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+}
+
+.auth-card input[type="text"],
+.auth-card input[type="password"],
+.auth-card input[type="email"] {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--text);
+  background: var(--surface-2);
+  outline: none;
+  transition: border-color .2s, box-shadow .2s;
+  min-height: 48px; /* área táctil */
+}
+
+.auth-card input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(79,70,229,.12);
+  background: var(--surface);
+}
+
+/* — Errores de validación de Django — */
+.auth-card ul.errorlist {
+  list-style: none;
+  background: var(--error-bg);
+  border: 1.5px solid #FECACA;
+  border-radius: var(--radius-sm);
+  padding: 0.6rem 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.auth-card ul.errorlist li {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--error);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.auth-card ul.errorlist li::before { content: "⚠"; }
+
+/* — Helptext (requisitos contraseña) — */
+.auth-card .helptext,
+.auth-card span.helptext,
+.auth-card ul.helptext {
+  background: var(--info-bg);
+  border: 1.5px solid var(--info-border);
+  border-radius: var(--radius-sm);
+  padding: 0.6rem 0.9rem;
+  font-size: 0.8rem;
+  color: #1D4ED8;
+  line-height: 1.6;
+  margin-top: 0.2rem;
+}
+
+/* Django imprime los helptext dentro de <ul> nativos */
+.auth-card p > ul:not(.errorlist) {
+  background: var(--info-bg);
+  border: 1.5px solid var(--info-border);
+  border-radius: var(--radius-sm);
+  padding: 0.6rem 0.9rem 0.6rem 1.7rem;
+  font-size: 0.8rem;
+  color: #1D4ED8;
+  line-height: 1.7;
+  list-style: none;
+  margin-top: 0.2rem;
+}
+
+.auth-card p > ul:not(.errorlist)::before {
+  content: "ℹ️  Requisitos de contraseña";
+  display: block;
+  font-weight: 800;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #1D4ED8;
+  margin-bottom: 0.4rem;
+}
+
+.auth-card p > ul:not(.errorlist) li { list-style: disc; margin-left: 1rem; }
+
+/* — Separador y enlace — */
+.auth-alt {
+  text-align: center;
+  font-size: 0.87rem;
+  color: var(--text-muted);
+  margin-top: 0.75rem;
+  font-weight: 600;
+}
+
+/* -----------------------
+   MEDIA QUERIES — TABLET / DESKTOP
+   ----------------------- */
+@media (min-width: 480px) {
+  .collection-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (min-width: 640px) {
+  .navbar__inner { padding: 0.75rem 2rem; }
+  .plate-card    { padding: 2.5rem 2rem; }
+  .auth-card     { padding: 2.5rem 2.5rem; }
+  .section-card  { padding: 2rem; }
+  .form-actions .btn--danger { padding: 0.8rem 1.4rem; }
+}
+
+@media (min-width: 768px) {
+  .collection-grid { grid-template-columns: repeat(4, 1fr); }
+
+  .plate__letters { font-size: 5rem; }
+
+  .stats-page,
+  .page-main { padding-top: 2.5rem; }
+}

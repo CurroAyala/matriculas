@@ -1,18 +1,117 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Registro</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro — Matrículas</title>
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
-    <h1>Crear cuenta en Matrículas</h1>
-    
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }} 
-        <button type="submit">Registrarse</button>
-    </form>
 
-    <p>¿Ya tienes cuenta? <a href="{% url 'login' %}">Inicia sesión aquí</a></p>
+  <main class="auth-page">
+
+    <div class="auth-logo">MATRÍ<span>CULAS</span></div>
+    <p class="auth-tagline">Crea tu cuenta y empieza a jugar.</p>
+
+    <div class="auth-card">
+      <h1>Crear cuenta</h1>
+
+      <form method="POST" class="auth-form">
+        {% csrf_token %}
+
+        <!-- ── NOMBRE DE USUARIO ── -->
+        <div class="field-group">
+          <label class="field-group__label" for="{{ form.username.id_for_label }}">
+            Nombre de usuario
+          </label>
+          {{ form.username }}
+          {% if form.username.errors %}
+            <ul class="field-group__errors">
+              {% for error in form.username.errors %}
+                <li>{{ error }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        </div>
+
+        <!-- ── CONTRASEÑA ── -->
+        <div class="field-group">
+          <br>
+          <label class="field-group__label" for="{{ form.password1.id_for_label }}">
+            Contraseña
+          </label>
+          {{ form.password1 }}
+          {% if form.password1.errors %}
+            <ul class="field-group__errors">
+              {% for error in form.password1.errors %}
+                <li>{{ error }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+
+          <!-- ── CONFIRMAR CONTRASEÑA ── -->
+        <div class="field-group">
+          <br>
+          <label class="field-group__label" for="{{ form.password2.id_for_label }}">
+            Confirmar contraseña
+          </label>
+          {{ form.password2 }}
+          {% if form.password2.errors %}
+            <ul class="field-group__errors">
+              {% for error in form.password2.errors %}
+                <li>{{ error }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        </div>
+
+          <!-- Caja de requisitos, siempre visible como referencia -->
+          <div class="field-group__hint--rules">
+            <br>
+            <strong>ℹ️ Requisitos para la contraseña:</strong>
+            <ul>
+              <li>Al menos 8 caracteres.</li>
+              <li>No puede parecerse a tu nombre de usuario.</li>
+              <li>No puede ser una clave demasiado común.</li>
+              <li>No puede ser completamente numérica.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Errores generales del formulario (non-field errors) -->
+        {% if form.non_field_errors %}
+          <ul class="field-group__errors">
+            {% for error in form.non_field_errors %}
+              <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+
+        <br>
+        <button type="submit" class="btn btn--success" style="margin-top:.25rem">
+          Crear cuenta
+        </button>
+      </form>
+
+      <p class="auth-alt">
+        ¿Ya tienes cuenta? <a href="{% url 'login' %}">Inicia sesión aquí</a>
+      </p>
+    </div>
+
+  </main>
+
+  <footer class="site-footer">
+    Creado por <a href="https://github.com/CurroAyala" target="_blank" rel="noopener">Curro Ayala</a>
+  </footer>
+
+  <!-- Añadir clases de Django al widget del input vía JS,
+       ya que UserCreationForm renderiza <input> sin clase -->
+  <script>
+    document.querySelectorAll('.auth-form input').forEach(function(el) {
+      el.classList.add('field-group__input');
+    });
+  </script>
+
 </body>
 </html>

@@ -1,51 +1,137 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Matrículas</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Matrículas</title>
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
-    <h1>¡Bienvenido a Matrículas!</h1>
 
-    <form method="POST" action="{% url 'estadisticas' %}" style="display: inline-block; margin-left: 15px;">
-        {% csrf_token %}
-        <button type="submit" style="background-color: #8aaecf; color: white; border: none; padding: 4px 10px; cursor: pointer; border-radius: 4px; font-size: 14px;">
-            Estadísticas
-        </button>
-    </form>
-    <form method="POST" action="{% url 'logout' %}" style="display: inline-block; margin-left: 15px;">
-        {% csrf_token %}
-        <button type="submit" style="background-color: #6c757d; color: white; border: none; padding: 4px 10px; cursor: pointer; border-radius: 4px; font-size: 14px;">
-            Cerrar sesión
-        </button>
-    </form>
+  <!-- ===== NAVBAR ===== -->
+  <header class="navbar">
+    <div class="navbar__inner">
+      <span class="navbar__logo">MATRÍ<span>CULAS</span></span>
+      <nav class="navbar__actions">
+        <!-- Estadísticas -->
+        <form method="POST" action="{% url 'estadisticas' %}">
+          {% csrf_token %}
+          <button type="submit" class="btn btn--ghost btn--sm">📊 Panel</button>
+        </form>
+        <!-- Info -->
+        <button class="btn btn--icon" id="openModal" title="¿Cómo jugar?">?</button>
+        <!-- Cerrar sesión -->
+        <form method="POST" action="{% url 'logout' %}">
+          {% csrf_token %}
+          <button type="submit" class="btn btn--secondary btn--sm">Salir</button>
+        </form>
+      </nav>
+    </div>
+  </header>
 
-    <p>Introduce una palabra que contenga las letras de la matrícula: {{ letras }}</p>
+  <!-- ===== CONTENIDO PRINCIPAL ===== -->
+  <main class="page-main">
 
+    <!-- Mensajes flash -->
     {% if messages %}
-        <ul class="mensajes">
-            {% for message in messages %}
-                <li class="{{ message.tags }}">{{ message }}</li>
-            {% endfor %}
-        </ul>
+      <ul class="flash-list">
+        {% for message in messages %}
+          <li class="{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
     {% endif %}
 
-    <form method="POST" action="">
-        {% csrf_token %}
-        
-        <input type="hidden" name="letras" value="{{ letras }}">
-        
-        <input type="text" name="respuesta" placeholder="Escribe tu palabra..." required autofocus>
-        <button type="submit">Aceptar</button>
-    </form>
+    <!-- Tarjeta de juego -->
+    <div class="plate-card">
 
-    <form method="POST" action="" style="display: inline-block; margin-left: 10px;">
+      <!-- Visualización de matrícula estilo español -->
+      <div class="plate">
+        <div class="plate__eu">
+          <span class="plate__eu-stars">★★★</span>
+          <span class="plate__eu-flag">E</span>
+        </div>
+        <div class="plate__letters">{{ letras }}</div>
+      </div>
+
+      <!-- Formulario de respuesta -->
+      <form method="POST" action="" class="answer-form">
         {% csrf_token %}
-        <input type="hidden" name="accion" value="saltar">
-        <button type="submit" style="background-color: #d9534f; color: white; border: none; padding: 6px 12px; cursor: pointer; border-radius: 4px;">
-            Cambiar letras
-        </button>
-    </form>
+        <input type="hidden" name="letras" value="{{ letras }}">
+        <input
+          type="text"
+          name="respuesta"
+          class="input-word"
+          placeholder="Tu palabra..."
+          required
+          autofocus
+          autocomplete="off"
+          autocapitalize="none"
+        >
+        <div class="form-actions">
+          <button type="submit" class="btn btn--success">✓ Aceptar</button>
+
+          <!-- Saltar matrícula (formulario independiente) -->
+          <button
+            type="button"
+            class="btn btn--danger"
+            onclick="document.getElementById('skipForm').submit()"
+          >↻ Cambiar</button>
+        </div>
+      </form>
+
+    </div><!-- /plate-card -->
+
+  </main>
+
+  <!-- Formulario oculto para saltar matrícula -->
+  <form id="skipForm" method="POST" action="" style="display:none">
+    {% csrf_token %}
+    <input type="hidden" name="accion" value="saltar">
+  </form>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="site-footer">
+    Creado por <a href="https://github.com/CurroAyala" target="_blank" rel="noopener">Curro Ayala</a>
+  </footer>
+
+  <!-- ===== MODAL DE INFO ===== -->
+  <div class="modal-overlay" id="infoModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal">
+      <div class="modal__header">
+        <h2 class="modal__title" id="modalTitle">¿Cómo jugar?</h2>
+        <button class="modal__close" id="closeModal" aria-label="Cerrar">✕</button>
+      </div>
+      <div class="modal__body">
+        <p>
+          <strong>Matrículas</strong> es un minijuego online que consiste en proporcionar
+          una palabra a partir de tres letras, como si las de una matrícula se tratase.
+          Una palabra es válida si, y solo si:
+        </p>
+        <ul>
+          <li>Contiene las tres letras de la matrícula, al menos una vez cada una.</li>
+          <li>Las letras en cuestión aparecen en el mismo orden que en la matrícula.</li>
+          <li>La palabra existe en español.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== JS (modal) ===== -->
+  <script>
+    const modal   = document.getElementById('infoModal');
+    const openBtn = document.getElementById('openModal');
+    const closeBtn= document.getElementById('closeModal');
+
+    openBtn.addEventListener('click',  () => modal.classList.add('is-open'));
+    closeBtn.addEventListener('click', () => modal.classList.remove('is-open'));
+    modal.addEventListener('click', e => {
+      if (e.target === modal) modal.classList.remove('is-open');
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') modal.classList.remove('is-open');
+    });
+  </script>
 
 </body>
 </html>

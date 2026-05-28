@@ -1,17 +1,40 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Iniciar Sesión</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iniciar sesión — Matrículas</title>
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
-    <h1>Entrar a Matrículas</h1>
-    
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }} <button type="submit">Iniciar sesión</button>
-    </form>
 
-    <p>¿No tienes cuenta? <a href="{% url 'registro' %}">Regístrate gratis</a></p>
+  <main class="auth-page">
+
+    <div class="auth-logo">MATRÍ<span>CULAS</span></div>
+    <p class="auth-tagline">Convierte matrículas en palabras.</p>
+
+    <div class="auth-card">
+      <h1>Entrar</h1>
+
+      <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn--success" style="margin-top:.75rem">
+          Iniciar sesión
+        </button>
+      </form>
+
+      <p class="auth-alt">
+        ¿No tienes cuenta? <a href="{% url 'registro' %}">Regístrate gratis</a>
+      </p>
+    </div>
+
+  </main>
+
+  <footer class="site-footer">
+    Creado por <a href="https://github.com/CurroAyala" target="_blank" rel="noopener">Curro Ayala</a>
+  </footer>
+
 </body>
 </html>

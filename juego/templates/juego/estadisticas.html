@@ -1,47 +1,108 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Estadísticas</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Estadísticas — Matrículas</title>
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
-    <h1>Panel de estadísticas</h1>
 
-    <form method="POST" action="{% url 'inicio' %}" style="display: inline-block; margin-left: 15px;">
-        {% csrf_token %}
-        <button type="submit" style="background-color: #8aaecf; color: white; border: none; padding: 4px 10px; cursor: pointer; border-radius: 4px; font-size: 14px;">
-            Inicio
-        </button>
-    </form>
+  <!-- ===== NAVBAR ===== -->
+  <header class="navbar">
+    <div class="navbar__inner">
+      <span class="navbar__logo">MATRÍ<span>CULAS</span></span>
+      <nav class="navbar__actions">
+        <form method="POST" action="{% url 'inicio' %}">
+          {% csrf_token %}
+          <button type="submit" class="btn btn--primary btn--sm">Jugar</button>
+        </form>
+        <form method="POST" action="{% url 'logout' %}">
+          {% csrf_token %}
+          <button type="submit" class="btn btn--secondary btn--sm">Salir</button>
+        </form>
+      </nav>
+    </div>
+  </header>
 
+  <!-- ===== CONTENIDO PRINCIPAL ===== -->
+  <main class="stats-page">
 
+    <!-- Total -->
+    <div class="section-card">
+      <p class="plate-label" style="margin-bottom:.6rem">Tu puntuación total</p>
+      <div class="total-pill">
+        <span class="total-pill__number">{{ total }}</span>
+        <span>matrícula{{ total|pluralize:"s" }} resuelta{{ total|pluralize:"s" }}</span>
+      </div>
+    </div>
 
-    <h2>Total de matrículas: {{ total }}</h2>
-
-
+    <!-- Ranking global -->
     {% if rankin %}
-    <h2>Ranking global</h2>
-    <ul>
+    <div class="section-card">
+      <h2 class="section-title">🏆 Ranking Global</h2>
+      <div class="ranking-list">
         {% for clave, valor in rankin.items %}
-            <li><strong>{{ clave }}:</strong> {{ valor }}</li>
+          {% if forloop.counter == 1 %}
+            <div class="ranking-item ranking-item--1">
+              <span class="ranking-item__pos">1</span>
+              <span class="ranking-item__medal">🥇</span>
+              <span class="ranking-item__name">{{ clave }}</span>
+              <span class="ranking-item__score">{{ valor }} pts</span>
+            </div>
+          {% elif forloop.counter == 2 %}
+            <div class="ranking-item ranking-item--2">
+              <span class="ranking-item__pos">2</span>
+              <span class="ranking-item__medal">🥈</span>
+              <span class="ranking-item__name">{{ clave }}</span>
+              <span class="ranking-item__score">{{ valor }} pts</span>
+            </div>
+          {% elif forloop.counter == 3 %}
+            <div class="ranking-item ranking-item--3">
+              <span class="ranking-item__pos">3</span>
+              <span class="ranking-item__medal">🥉</span>
+              <span class="ranking-item__name">{{ clave }}</span>
+              <span class="ranking-item__score">{{ valor }} pts</span>
+            </div>
+          {% else %}
+            <div class="ranking-item">
+              <span class="ranking-item__pos">{{ forloop.counter }}</span>
+              <span class="ranking-item__medal">🎖</span>
+              <span class="ranking-item__name">{{ clave }}</span>
+              <span class="ranking-item__score">{{ valor }} pts</span>
+            </div>
+          {% endif %}
         {% endfor %}
-    </ul>
+      </div>
+    </div>
     {% endif %}
 
+    <!-- Colección -->
+    <div class="section-card">
+      <h2 class="section-title">🗂 Tu colección</h2>
+      {% if coleccion %}
+        <div class="collection-grid">
+          {% for matricula in coleccion %}
+            <div class="collection-card">
+              <span class="collection-card__plate">{{ matricula.letras }}</span>
+              <span class="collection-card__word">{{ matricula.respuesta }}</span>
+            </div>
+          {% empty %}
+            <p style="color:var(--text-muted);font-size:.9rem;">Aún no has resuelto ninguna matrícula.</p>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p style="color:var(--text-muted);font-size:.9rem;">Tu colección está vacía. ¡Empieza a jugar!</p>
+      {% endif %}
+    </div>
 
-    <h2>Colección de matrículas</h2>
-    {% if coleccion%}
-    <ul>
-        {% for matricula in coleccion %}
-            <li>
-                <strong>{{ matricula.letras }}</strong>: {{ matricula.respuesta }} 
-            </li>
-        {% empty %}
-        <li>No se han encontrado registros en la base de datos.</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
+  </main>
 
+  <!-- ===== FOOTER ===== -->
+  <footer class="site-footer">
+    Creado por <a href="https://github.com/CurroAyala" target="_blank" rel="noopener">Curro Ayala</a>
+  </footer>
 
 </body>
 </html>
