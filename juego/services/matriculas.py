@@ -10,7 +10,7 @@ from spellchecker import SpellChecker
 # -----------
 # CONSTANTES
 # -----------
-letras = ('B', 'C', 'D', 'F', 'G', 'H', 'J', 'L', 'M', 'N', 'P', 'R', 'S', 'T', 'V', 'X', 'Z')
+letras = ('B', 'C', 'D', 'F', 'G', 'H', 'J', 'L', 'M', 'N', 'P', 'R', 'S', 'T', 'V', 'Z')
 
 corrector = SpellChecker(language='es')
 
